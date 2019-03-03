@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -53,6 +55,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -76,6 +79,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this,"Database Kayıt Edildi",Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
+        }else if (item.getItemId() == android.R.id.home){
+            Intent homeIntent = new Intent(this, MainActivity.class);
+            homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -92,6 +99,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapLongClickListener(this);
+        Intent intent = getIntent();
+        String info = intent.getStringExtra("info"); //take info wheter new add place or not
+        if (info.matches("new")) {
+
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -118,7 +129,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onProviderDisabled(String provider) {
-
+                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(i);
             }
         };
 
@@ -147,6 +159,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
+      }else {
+            mMap.clear();
+            int position = intent.getIntExtra("position",0);
+            LatLng locationFromMainActivity = new LatLng(MainActivity.locations.get(position).latitude,MainActivity.locations.get(position).longitude); //take mainactivity with static which index cliked.
+            String placeNameFormMainActivity = MainActivity.names.get(position);
+            mMap.addMarker(new MarkerOptions().title(placeNameFormMainActivity).position(locationFromMainActivity).icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationFromMainActivity,15));
+
+        }
     }
 
     @Override
@@ -192,8 +213,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 e.printStackTrace();
             }
             mMap.clear();
-            mMap.addMarker(new MarkerOptions().title(address).position(latLng));
-            Toast.makeText(this,"yeni yer oluşturuldu",Toast.LENGTH_LONG).show();
+            mMap.addMarker(new MarkerOptions().title(address).position(latLng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_icon)));
+            Toast.makeText(this,"New Place Created",Toast.LENGTH_LONG).show();
 
 
         }

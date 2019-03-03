@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "201812134783",
+    "firebase_url": "https://aliburaklocationfinder.firebaseio.com",
+    "project_id": "aliburaklocationfinder",
+    "storage_bucket": "aliburaklocationfinder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201812134783:android:3fa513c57a10808e",
+        "android_client_info": {
+          "package_name": "com.locationfinder.aliburak.findsavedlocation_aliburak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201812134783-qv52g6plm5ckh6acbsstrdk1nmh6t66v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.locationfinder.aliburak.findsavedlocation_aliburak",
+            "certificate_hash": "351fd2716cd9c3979b2b44d6d8a5c9ae517aa8d8"
+          }
+        },
+        {
+          "client_id": "201812134783-5uhgpkkltslbl0olh0n33vugk9squhb4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEmf1SK1aEMVtR6T0VULxj8phdo1xLlWg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201812134783-5uhgpkkltslbl0olh0n33vugk9squhb4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

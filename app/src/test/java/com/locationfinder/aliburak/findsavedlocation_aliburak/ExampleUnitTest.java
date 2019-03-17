@@ -1,4 +1,4 @@
-package com.locationfinder.firebase.findsavedlocation;
+package com.locationfinder.aliburak.findsavedlocation_aliburak;
 
 import org.junit.Test;
 

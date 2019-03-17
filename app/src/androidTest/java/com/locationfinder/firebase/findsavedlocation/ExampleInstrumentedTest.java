@@ -1,4 +1,4 @@
-package com.locationfinder.aliburak.findsavedlocation_aliburak;
+package com.locationfinder.firebase.findsavedlocation;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

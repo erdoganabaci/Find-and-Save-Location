@@ -1,4 +1,4 @@
-package com.locationfinder.aliburak.findsavedlocation_aliburak;
+package com.locationfinder.firebase.findsavedlocation;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     Double latituteDouble;
     Double longituteDouble;
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
                 intent.putExtra("info","old");
                 intent.putExtra("position",position);
+                //Toast.makeText(getApplicationContext(),"Gönderilen Pozisyon :"+position,Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -159,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 deleteItem.setIcon(R.drawable.ic_delete);
                 // add to menu
                 menu.addMenuItem(deleteItem);
+
             }
         };
 
@@ -166,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public boolean onMenuItemClick(final int position, final SwipeMenu menu, int index) {
                 switch (index) {
                     case 0: // this part delete item.
                         System.out.println("onMenuItemClick: clicked item 0 " + position);
@@ -177,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                                     ds.getRef().removeValue();
+                                    locations.remove(position);
+                                    names.remove(position);
+
+                                    //Toast.makeText(getApplicationContext(),"Silinen pozisyon: "+position,Toast.LENGTH_LONG).show();
                                 }
                             }
 
@@ -203,7 +210,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void getDataFromFirebase(){
 
-
+            names.clear();
+            locations.clear();
            DatabaseReference newReference = firebaseDatabase.getReference("Locations");
            newReference.addValueEventListener(new ValueEventListener() {
                @Override
@@ -225,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 names.add(nameFromFirebase);
                                 System.out.println("isimler1:"+names);
+
                                 locations.add(locationLatLngFromFirebase);
                                 arrayAdapter.notifyDataSetChanged();
                             }

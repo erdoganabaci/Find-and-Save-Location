@@ -4,7 +4,6 @@ Easy way to save your location and share everyone with Firebase Database.
 
 ## Images How To Use
 
-
 ![](https://user-images.githubusercontent.com/43154455/54497331-713f8680-490a-11e9-8ac7-a82ac283b217.gif)
 
 ## Images How to Add Location and Remove Firebasebase Database
